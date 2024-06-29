@@ -22,24 +22,22 @@ class ProductsViewSet(ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes =[IsAuthenticatedOrReadOnly]
 
-    
-    
+
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = ProductFilter
     search_fields = ['name', 'description']
     pagination_class = ProductPagination
-
-
+    
 
 class CategoryViewSet(ModelViewSet):
-    permission_classes =[IsAuthenticatedOrReadOnly]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes =[IsAuthenticatedOrReadOnly]
+
 
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
-    permission_classes =[IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
          return Review.objects.filter(product_id=self.kwargs["product_pk"])

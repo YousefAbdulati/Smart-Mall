@@ -5,6 +5,7 @@ from rest_framework import serializers
 from .models import *
 
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -12,6 +13,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    avg_rating = serializers.FloatField(read_only=True)
+    rating_count = serializers.IntegerField(read_only=True)
     class Meta:
         model = Product
         fields = '__all__'
@@ -19,9 +22,12 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    avg_rating = serializers.FloatField(source='product.avg_rating', read_only=True)
+    rating_count = serializers.IntegerField(source='product.rating_count', read_only=True)
+
     class Meta:
         model = Review
-        fields = ["id", "date_created", "name", "description"]
+        fields = ["id", "date_created", "name", 'rating', "description" ,'avg_rating','rating_count' ]
     
     def create(self, validated_data):
         product_id = self.context["product_id"]

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cleanup.apps.CleanupConfig',
     'django_filters',
     'rest_framework',
     'drf_yasg',
@@ -170,7 +171,6 @@ EMAIL_USE_SSL = False  # Outlook uses TLS, not SSL
 
 
 
-
 PASSWORD_RESET_TIMEOUT=900          # 900 Sec = 15 Min
 
 
@@ -178,3 +178,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")

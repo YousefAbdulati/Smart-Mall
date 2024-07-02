@@ -3,6 +3,8 @@ from itertools import product
 from django.db import transaction
 from rest_framework import serializers
 from .models import *
+from account.utils import Util
+
 
 
 
@@ -27,11 +29,30 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ["id", "date_created", "name", 'rating', "description" ,'avg_rating','rating_count' ]
+        fields = ["id", "date_created", "name", "email" ,'rating', "description" ,'avg_rating','rating_count' ]
+        extra_kwargs={
+          'email':{'write_only':True},
+        }
     
     def create(self, validated_data):
         product_id = self.context["product_id"]
-        return Review.objects.create(product_id = product_id,  **validated_data)
+        review=Review.objects.create(product_id = product_id,  **validated_data)
+        
+        # Send EMail
+        email = validated_data.get('email', '')  # Retrieve email from validated_data
+        link = f'http://localhost:3000/api/products/{product_id}/reviews/{review.id}'
+        body = 'thanks for your Review , Click Following Link to update your review ' + link
+        print(email, link)
+
+        data = {
+          'subject':'Your Review',
+          'body':body,
+          'to_email':email,
+        }
+        Util.send_email(data)
+    
+        return review
+
 
 
 class SimpleProductSerializer(serializers.ModelSerializer):

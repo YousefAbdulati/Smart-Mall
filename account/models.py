@@ -34,6 +34,10 @@ class UserManager(BaseUserManager):
 
 #  Custom User Model
 class User(AbstractBaseUser):
+  GENDER_CHOICES = [
+        ('MALE','Male'),
+        ('FEMALE','Female'),
+      ]
   email = models.EmailField(
       verbose_name='Email',
       max_length=255,
@@ -41,11 +45,11 @@ class User(AbstractBaseUser):
   )
   name = models.CharField(max_length=255)
   image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
-  gender = models.CharField(max_length=255, null=True,blank=True)
+  gender = models.CharField(max_length=255, choices=GENDER_CHOICES, null=True, blank=True)
   nationality = models.CharField(max_length=255 ,default="Egypt")
   date_of_birth = models.DateField(blank=True, null=True)
-  address = models.JSONField(null=True, blank=True)
-  phone = models.JSONField(null=True, blank=True)
+  address = models.CharField(max_length=255, null=True, blank=True)
+  phone = models.CharField(max_length=255, null=True, blank=True)
   is_active = models.BooleanField(default=True)
   is_admin = models.BooleanField(default=False)
   created_at = models.DateTimeField(auto_now_add=True)

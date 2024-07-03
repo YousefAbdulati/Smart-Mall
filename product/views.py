@@ -32,7 +32,7 @@ class ProductsViewSet(ModelViewSet):
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes =[IsAuthenticatedOrReadOnly]
+    # permission_classes =[IsAuthenticatedOrReadOnly]
 
 
 

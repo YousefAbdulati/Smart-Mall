@@ -40,7 +40,6 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True)
     avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
     rating_count = models.IntegerField(default=0)
-    discount = models.BooleanField(default=False)
     image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
     old_price = models.FloatField(blank=True, null=True)
     price = models.FloatField(default=100.00)

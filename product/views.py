@@ -17,10 +17,18 @@ from product import serializers
 
 # Create your views here.
 
+class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes =[IsAuthenticatedOrReadOnly]
+
+
+
+
 class ProductsViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # permission_classes =[IsAuthenticatedOrReadOnly]
+    permission_classes =[IsAuthenticatedOrReadOnly]
 
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
@@ -28,12 +36,6 @@ class ProductsViewSet(ModelViewSet):
     search_fields = ['name', 'description']
     pagination_class = ProductPagination
     
-
-class CategoryViewSet(ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    # permission_classes =[IsAuthenticatedOrReadOnly]
-
 
 
 class ReviewViewSet(ModelViewSet):

@@ -7,9 +7,6 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.db.models import Avg
 
-
-
-
 # Create your models here.
 
         
@@ -40,6 +37,7 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True)
     avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
     rating_count = models.IntegerField(default=0)
+    discount = models.BooleanField(default=False)
     image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
     old_price = models.FloatField(blank=True, null=True)
     price = models.FloatField(default=100.00)
@@ -53,7 +51,7 @@ class Product(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if self.pk is not None:  # If the product already exists (updating)
+        if self.pk is not None:  
             try:
                 old_product = Product.objects.get(pk=self.pk)
                 if old_product.price != self.price:
@@ -89,3 +87,5 @@ def update_product_rating_stats(sender, instance, **kwargs):
         product.avg_rating = 0.0
         product.rating_count = 0
     product.save()
+
+    

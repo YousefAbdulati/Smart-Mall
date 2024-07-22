@@ -40,8 +40,8 @@ class ReviewSerializer(serializers.ModelSerializer):
         
         # Send EMail
         email = validated_data.get('email', '')  # Retrieve email from validated_data
-        link = f'http://localhost:3000/api/products/{product_id}/reviews/{review.id}'
-        body = 'thanks for your Review , Click Following Link to update your review ' + link
+        link = f'http://localhost:3000/update-review/{product_id}/{review.id}'
+        body = f'thanks for your Review , your rating : {review.rating} , Click Following Link to update your review ' +  link
         print(email, link)
 
         data = {
